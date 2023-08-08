@@ -19,10 +19,10 @@ fn get_shell() -> String {
     return std::env::var("SHELL").unwrap_or_else(|_| default_shell.into());
 }
 
-fn read_path_env_cmd(shell: String) -> Output {
+fn read_path_env_cmd(shell: String, var_name: String) -> Output {
     return std::process::Command::new(shell)
         .arg("-ilc")
-        .arg("printenv PATH")
+        .arg("printenv" + var_name + "; exit")
         // Disables Oh My Zsh auto-update thing that can block the process.
         .env("DISABLE_AUTO_UPDATE", "true")
         .output()
@@ -35,7 +35,7 @@ fn set_var(env_raw_line: &str) {
     std::env::set_var(var, value);
 }
 
-pub fn fix_vars() -> Result<(), Error> {
+pub fn fix_env(var_name: &str) -> Result<(), Error> {
     #[cfg(windows)]
     {
         return Ok(());
@@ -43,7 +43,7 @@ pub fn fix_vars() -> Result<(), Error> {
     #[cfg(not(windows))]
     {
         let shell = get_shell();
-        let out = read_path_env_cmd(shell);
+        let out = read_path_env_cmd(shell, String::from(var_name));
 
         if out.status.success() {
             let stdout = String::from_utf8_lossy(&out.stdout).into_owned();

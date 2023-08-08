@@ -19,7 +19,7 @@ mod ui_ready;
 mod util;
 mod window;
 mod workspaces;
-mod fix_path_env;
+mod fix_env;
 
 use community_contributions::CommunityContributions;
 use custom_protocol::{CustomProtocol, OpenWorkspaceMsg};
@@ -78,7 +78,7 @@ enum ToastStatus {
 
 
 fn main() -> anyhow::Result<()> {
-    fix_path_env::fix()?;
+    fix_env::fix()?;
     for arg in std::env::vars() {
         println!("{}: {:?}", arg.0, arg.1);
     }
