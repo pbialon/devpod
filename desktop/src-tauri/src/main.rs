@@ -78,7 +78,7 @@ enum ToastStatus {
 
 
 fn main() -> anyhow::Result<()> {
-    fix_env::fix()?;
+    fix_env::fix_env("PATH")?;
     for arg in std::env::vars() {
         println!("{}: {:?}", arg.0, arg.1);
     }
