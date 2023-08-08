@@ -603,6 +603,7 @@ dependencies = [
  "serde_json",
  "serde_qs",
  "serde_yaml",
+ "strip-ansi-escapes",
  "tauri",
  "tauri-build",
  "tauri-plugin-deep-link",

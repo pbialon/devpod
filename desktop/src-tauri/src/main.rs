@@ -19,6 +19,7 @@ mod ui_ready;
 mod util;
 mod window;
 mod workspaces;
+mod fix_path_env;
 
 use community_contributions::CommunityContributions;
 use custom_protocol::{CustomProtocol, OpenWorkspaceMsg};
@@ -28,6 +29,7 @@ use std::{
     collections::VecDeque,
     sync::{Arc, Mutex},
 };
+use std::process::Command;
 use system_tray::SystemTray;
 use tauri::{Manager, Menu, Wry};
 use tokio::{
@@ -74,8 +76,13 @@ enum ToastStatus {
     Loading,
 }
 
+
 fn main() -> anyhow::Result<()> {
     fix_path_env::fix()?;
+    for arg in std::env::vars() {
+        println!("{}: {:?}", arg.0, arg.1);
+    }
+
     let ctx = tauri::generate_context!();
     let app_name = ctx.package_info().name.to_string();
     let menu = if cfg!(target_os = "macos") {
