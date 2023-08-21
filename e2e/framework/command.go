@@ -219,3 +219,10 @@ func (f *Framework) DevPodWorkspaceDelete(ctx context.Context, workspace string,
 
 	return f.ExecCommand(ctx, false, true, fmt.Sprintf("Successfully deleted workspace '%s'", workspace), baseArgs)
 }
+
+func (f *Framework) DevPodImportWorkspace(ctx context.Context, extraArgs ...string) error {
+	baseArgs := []string{"import"}
+	baseArgs = append(baseArgs, extraArgs...)
+
+	return f.ExecCommand(ctx, false, true, "", baseArgs)
+}

@@ -1,0 +1,43 @@
+name: loft
+version: 0.0.1
+icon: https://devpod.sh/assets/devpod.svg
+description: DevPod on Loft DevPod Engine
+optionGroups:
+  - name: Main Options
+    defaultVisible: true
+    options:
+      - LOFT_PROJECT
+      - LOFT_TEMPLATE
+      - LOFT_TEMPLATE_VERSION
+  - name: Template Options
+    defaultVisible: true
+    options:
+      - "TEMPLATE_OPTION_*"
+  - name: Other Options
+    options:
+      - LOFT_RUNNER
+options:
+  LOFT_CONFIG:
+    hidden: true
+    required: true
+    default: "${PROVIDER_FOLDER}/loft-config.json"
+    subOptionsCommand: "${LOFT_PROVIDER} devpod list projects"
+binaries:
+  LOFT_PROVIDER:
+    - os: darwin
+      arch: arm64
+      path: /usr/local/bin/loft
+exec:
+  proxy:
+    up: |-
+      ${LOFT_PROVIDER} devpod up
+    ssh: |-
+      ${LOFT_PROVIDER} devpod ssh
+    stop: |-
+      ${LOFT_PROVIDER} devpod stop
+    status: |-
+      ${LOFT_PROVIDER} devpod status
+    delete: |-
+      ${LOFT_PROVIDER} devpod delete
+    import: |-
+      ${LOFT_PROVIDER} devpod import
